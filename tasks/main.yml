@@ -2,7 +2,7 @@
 
 - block:
     - name: Ensure /usr/local ownership
-      file: name=/usr/local state=directory owner="{{ ansible_user }}" group="admin" recurse=yes
+      file: name=/usr/local state=directory owner="{{ ansible_user | default(ansible_env.USER) }}" group="admin"
       become: True
       become_user: root
     - name: Ensure homebrew
