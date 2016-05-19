@@ -1,0 +1,15 @@
+---
+
+- block:
+    - name: Ensure /usr/local ownership
+      file: name=/usr/local state=directory owner="{{ ansible_user }}" group="admin" recurse=yes
+      become: True
+      become_user: root
+    - name: Ensure homebrew
+      shell: |
+        echo "" | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      args:
+        creates: /usr/local/bin/brew
+    - name: Ensure some useful packages
+      homebrew: name=bash,zsh,tree,curl,wget,git
+  when: ansible_os_family == "Darwin"
